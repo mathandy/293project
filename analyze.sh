@@ -9,7 +9,7 @@ declare -a METRICS=("LLC-load-misses" "branch-misses")
 
 
 mkdir results
-mkdir plots
+
 
 # get results for various image sizes
 outdir=results/image_size
