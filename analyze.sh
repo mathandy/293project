@@ -41,6 +41,3 @@ for n in {1..500}; do
 		done
 	done
 done
-
-
-# 
