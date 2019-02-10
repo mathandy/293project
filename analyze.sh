@@ -13,7 +13,7 @@ mkdir results
 # get results for various image sizes
 outdir=results/image_size
 mkdir $outdir
-for s in $(seq 50 50 200); do
+for s in $(seq 50 50 2000); do
 	for mode in "${MODES[@]}"; do
 		out=$outdir/stat_${mode}_${s}_${DEFAULT_BATCH_SIZE}.txt
 		echo $out
@@ -29,7 +29,7 @@ done
 # get results for various batch sizes
 outdir=results/batch_size
 mkdir $outdir
-for n in {1..10}; do
+for n in {1..500}; do
 	for mode in "${MODES[@]}"; do
 		out=$outdir/stat_${mode}_${DEFAULT_IMAGE_SIZE}_$n.txt
 		echo $out
