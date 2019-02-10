@@ -16,21 +16,21 @@ outdir=results/image_size
 xmin=50
 deltax=50
 xmax=2000
-mkdir $outdir
-for s in $(seq $xmin $deltax $xmax); do
-	for mode in "${MODES[@]}"; do
-		out=$outdir/stat_${mode}_${s}_${DEFAULT_BATCH_SIZE}.txt
-		echo $out
-		perf stat -o $out ${STAT_FLAGS} python benchmark.py test_images $mode --resize $s -n ${DEFAULT_BATCH_SIZE} -p --no_profile
+# mkdir $outdir
+# for s in $(seq $xmin $deltax $xmax); do
+# 	for mode in "${MODES[@]}"; do
+# 		out=$outdir/stat_${mode}_${s}_${DEFAULT_BATCH_SIZE}.txt
+# 		echo $out
+# 		perf stat -o $out ${STAT_FLAGS} python benchmark.py test_images $mode --resize $s -n ${DEFAULT_BATCH_SIZE} -p --no_profile
 
-		# grab any desired metrics and append them to a summary file
-		for metric in "${METRICS[@]}"; do
-			summary=$outdir/summary_${mode}_$metric.txt
-			cat $out | grep $metric >> $summary
+# 		# grab any desired metrics and append them to a summary file
+# 		for metric in "${METRICS[@]}"; do
+# 			summary=$outdir/summary_${mode}_$metric.txt
+# 			cat $out | grep $metric >> $summary
 			
-		done
-	done
-done 
+# 		done
+# 	done
+# done 
 
 # plot summaries
 for mode in "${MODES[@]}"; do
@@ -45,19 +45,19 @@ outdir=results/batch_size
 xmin=1
 deltax=1
 xmax=500
-mkdir $outdir
-for n in $(seq $xmin $deltax $xmax); do
-	for mode in "${MODES[@]}"; do
-		out=$outdir/stat_${mode}_${DEFAULT_IMAGE_SIZE}_$n.txt
-		echo $out
-		perf stat -o $out ${STAT_FLAGS} python benchmark.py test_images $mode --resize ${DEFAULT_IMAGE_SIZE} -n $n -p  --no_profile
+# mkdir $outdir
+# for n in $(seq $xmin $deltax $xmax); do
+# 	for mode in "${MODES[@]}"; do
+# 		out=$outdir/stat_${mode}_${DEFAULT_IMAGE_SIZE}_$n.txt
+# 		echo $out
+# 		perf stat -o $out ${STAT_FLAGS} python benchmark.py test_images $mode --resize ${DEFAULT_IMAGE_SIZE} -n $n -p  --no_profile
 
-		# grab any desired metrics and append them to a summary file
-		for metric in "${METRICS[@]}"; do
-			cat $out | grep $metric >> $outdir/summary_${mode}_$metric.txt
-		done
-	done
-done
+# 		# grab any desired metrics and append them to a summary file
+# 		for metric in "${METRICS[@]}"; do
+# 			cat $out | grep $metric >> $outdir/summary_${mode}_$metric.txt
+# 		done
+# 	done
+# done
 
 # plot summaries
 for mode in "${MODES[@]}"; do
