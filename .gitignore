@@ -118,5 +118,6 @@ dmypy.json
 # Custom
 results/
 lit-review/
+test_images/
 .*
 !.gitignore
