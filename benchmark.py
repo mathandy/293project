@@ -188,7 +188,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # create generator (or preload) images
-    print(args.generate_images_of_size)
     if args.generate_images_of_size is None:  # load images from directory
         if args.preload:
             if args.no_profile:
