@@ -5,6 +5,8 @@ declare -a MODES=("no_interpolation_necessary" "interpolation_necessary" "affine
 DEFAULT_IMAGE_SIZE=250
 DEFAULT_BATCH_SIZE=100
 STAT_FLAGS="-B -e task-clock,context-switches,cpu-migrations,page-faults,LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses,LLC-prefetch-misses,cache-references,cache-misses,cycles,instructions,branches,branch-misses"
+declare -a METRICS=("LLC-load-misses" "branch-misses")
+
 
 mkdir results
 
@@ -12,11 +14,15 @@ mkdir results
 outdir=results/image_size
 mkdir $outdir
 for s in $(seq 50 50 200); do
-	echo "image_size: $s"
 	for mode in "${MODES[@]}"; do
-		echo "mode: $mode"
-		out=$outdir/stat_$mode_$s_${DEFAULT_BATCH_SIZE}.txt
+		out=$outdir/stat_${mode}_${s}_${DEFAULT_BATCH_SIZE}.txt
+		echo $out
 		perf stat -o $out ${STAT_FLAGS} python benchmark.py test_images $mode --resize $s -n ${DEFAULT_BATCH_SIZE} -p --no_profile
+
+		# grab any desired metrics and append them to a summary file
+		for metric in "${METRICS[@]}"; do
+			cat $out | grep $metric >> $outdir/summary_$metric.txt
+		done
 	done
 done 
 
@@ -24,10 +30,17 @@ done
 outdir=results/batch_size
 mkdir $outdir
 for n in {1..10}; do
-	echo "batch_size: $n"
 	for mode in "${MODES[@]}"; do
-		echo "mode: $mode"
-		out=$outdir/stat_$mode_${DEFAULT_MAGE_SIZE}_$n.txt
+		out=$outdir/stat_${mode}_${DEFAULT_IMAGE_SIZE}_$n.txt
+		echo $out
 		perf stat -o $out ${STAT_FLAGS} python benchmark.py test_images $mode --resize ${DEFAULT_IMAGE_SIZE} -n $n -p  --no_profile
+
+		# grab any desired metrics and append them to a summary file
+		for metric in "${METRICS[@]}"; do
+			cat $out | grep $metric >> $outdir/summary_$metric.txt
+		done
 	done
 done
+
+
+# 
