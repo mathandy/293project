@@ -35,10 +35,12 @@ To install all necessary prerequisites::
 """
 
 import cv2 as cv  # pip install opencv-python
-from albumentations import (HorizontalFlip, ShiftScaleRotate, RandomRotate90,
-                            Flip, OneOf, Compose, Rotate, RandomScale)
+from albumentations import (HorizontalFlip, VerticalFlip, ShiftScaleRotate, 
+                            RandomRotate90, Flip, OneOf, Compose, Rotate, 
+                            RandomScale)
 import numpy as np
 import os
+import cProfile
 
 
 def preload_images_from_directory(image_dir, n_images=None, shuffle=True,
@@ -107,16 +109,16 @@ def iterate_images_from_directory(image_dir, n_images=None, shuffle=True,
 
 def get_augmentation_fcn(mode, interpolation_method=cv.INTER_LINEAR):
     augmentation_dict = {
-        'all': Compose([RandomRotate90(p=1.), 
-                        Flip(p=1.), 
-                        Rotate(p=1., interpolation=interpolation_method), 
-                        RandomScale(p=1., interpolation=interpolation_method), 
-                        ShiftScaleRotate(p=1., interpolation=interpolation_method)]),
-        'any': OneOf([RandomRotate90(p=1.), 
-                      Flip(p=1.), 
-                      Rotate(p=1., interpolation=interpolation_method), 
-                      RandomScale(p=1., interpolation=interpolation_method), 
-                      ShiftScaleRotate(p=1., interpolation=interpolation_method)]),
+        # 'all': Compose([RandomRotate90(p=1.), 
+        #                 Flip(p=1.), 
+        #                 Rotate(p=1., interpolation=interpolation_method), 
+        #                 RandomScale(p=1., interpolation=interpolation_method), 
+        #                 ShiftScaleRotate(p=1., interpolation=interpolation_method)]),
+        # 'any': OneOf([RandomRotate90(p=1.), 
+        #               Flip(p=1.), 
+        #               Rotate(p=1., interpolation=interpolation_method), 
+        #               RandomScale(p=1., interpolation=interpolation_method), 
+        #               ShiftScaleRotate(p=1., interpolation=interpolation_method)]),
         'no_interpolation_necessary': OneOf([RandomRotate90(p=1.), 
                                              Flip(p=1.)]),
         'interpolation_necessary': OneOf([Rotate(p=1., interpolation=interpolation_method), 
@@ -125,7 +127,12 @@ def get_augmentation_fcn(mode, interpolation_method=cv.INTER_LINEAR):
         'affine': Compose([ShiftScaleRotate(p=1., interpolation=interpolation_method), 
                            HorizontalFlip(p=0.5)]),
         'rot': Rotate(p=1., interpolation=interpolation_method),
-        'rot90': RandomRotate90(p=1.)
+        'rot90': RandomRotate90(p=1.),
+        'flip': Flip(p=1.),
+        'hflip': HorizontalFlip(p=1.),
+        'vflip': VerticalFlip(p=1.),
+        'scale': RandomScale(p=1., interpolation=interpolation_method),
+        'ssr': ShiftScaleRotate(p=1., interpolation=interpolation_method),
     }
     return augmentation_dict[mode]
 
@@ -170,15 +177,23 @@ if __name__ == '__main__':
         help='Interpolation mode (not yet implemented, edit manually).')
     parser.add_argument('--show', default=False, action='store_true',
         help='Show each image before and after augmentation.')
+    parser.add_argument('--no_profile', default=False, action='store_true',
+        help='Do not use a profiler for this run.')
     args = parser.parse_args()
 
     # create generator (or preload) images
     if args.generate_images_of_size is None:  # load images from directory
         if args.preload:
-            images = preload_images_from_directory(image_dir=args.image_dir,
-                                                   n_images=args.num_images,
-                                                   shuffle=True,
-                                                   extensions=('jpg', 'jpeg', 'png'))
+            if no_profile:
+                images = preload_images_from_directory(image_dir=args.image_dir,
+                                                       n_images=args.num_images,
+                                                       shuffle=True,
+                                                       extensions=('jpg', 'jpeg', 'png'))
+            else:
+                cProfile.run("images = preload_images_from_directory(image_dir=args.image_dir,"
+                                                                    "n_images=args.num_images,"
+                                                                    "shuffle=True,"
+                                                                    "extensions=('jpg', 'jpeg', 'png'))")
         else:
             images = iterate_images_from_directory(image_dir=args.image_dir,
                                                    n_images=args.num_images,
@@ -196,13 +211,17 @@ if __name__ == '__main__':
             shape = shape[:-1]
 
         if args.preload:
-            images = (np.random.randint(0, 256, shape[1:], dtype='uint8'))
-        else:
             images = np.random.randint(0, 256, shape, dtype='uint8')
+        else:
+            images = (np.random.randint(0, 256, shape[1:], dtype='uint8') 
+                      for _ in range(args.num_images))
 
     augment = get_augmentation_fcn(args.mode, interpolation_method=cv.INTER_LINEAR)
-    for image in images:
-        augmented_image = augment(**{'image': image})['image']
-
-        if args.show:
+    if args.show:
+        for image in images:
+            augmented_image = augment(**{'image': image})['image']
             show_before_and_after(image, augmented_image)
+    elif args.no_profile:
+        augmented_images = [augment(**{'image': image})['image'] for image in images]
+    else:
+        cProfile.run("augmented_images = [augment(**{'image': image})['image'] for image in images]")
