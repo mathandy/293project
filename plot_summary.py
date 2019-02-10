@@ -15,9 +15,9 @@ def plot_summary(filename, xvals, out=None, xlabel='', ylabel='', title=''):
             yvals.append(y)
     yvals = np.array(yvals)
 
-    # assert len(xvals) == len(yvals)
-    if len(xvals) != len(yvals):
-        import ipdb; ipdb.set_trace()
+    assert len(xvals) == len(yvals)
+    # if len(xvals) != len(yvals):
+    #     import ipdb; ipdb.set_trace()
 
     plt.plot(xvals, yvals)
 
