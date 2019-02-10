@@ -21,7 +21,7 @@ for s in $(seq 50 50 2000); do
 
 		# grab any desired metrics and append them to a summary file
 		for metric in "${METRICS[@]}"; do
-			cat $out | grep $metric >> $outdir/summary_$metric.txt
+			cat $out | grep $metric >> $outdir/summary_${mode}_$metric.txt
 		done
 	done
 done 
@@ -37,7 +37,7 @@ for n in {1..500}; do
 
 		# grab any desired metrics and append them to a summary file
 		for metric in "${METRICS[@]}"; do
-			cat $out | grep $metric >> $outdir/summary_$metric.txt
+			cat $out | grep $metric >> $outdir/summary_${mode}_$metric.txt
 		done
 	done
 done
