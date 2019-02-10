@@ -37,7 +37,7 @@ To install all necessary prerequisites::
 import cv2 as cv  # pip install opencv-python
 from albumentations import (HorizontalFlip, VerticalFlip, ShiftScaleRotate, 
                             RandomRotate90, Flip, OneOf, Compose, Rotate, 
-                            RandomScale)
+                            RandomScale, Resize)
 import numpy as np
 import os
 import cProfile
@@ -62,8 +62,8 @@ def preload_images_from_directory(image_dir, n_images=None, shuffle=True,
     -------
     images (generator of numpy arrays)
     """
-    image_filenames = [os.path.join(image_dir, fn) for fn in os.listdir(image_dir) 
-                       if os.path.splitext(fn)[-1] in extensions]
+    image_filenames = [os.path.join(image_dir, fn) for fn in os.listdir(image_dir)
+                       if os.path.splitext(fn)[-1][1:] in extensions]
 
     if shuffle:
         np.random.shuffle(image_filenames)
@@ -93,7 +93,6 @@ def iterate_images_from_directory(image_dir, n_images=None, shuffle=True,
     -------
     images (list of numpy arrays)
     """
-
     image_filenames = [os.path.join(image_dir, fn) for fn in os.listdir(image_dir)
                        if os.path.splitext(fn)[-1][1:] in extensions]
 
@@ -133,6 +132,7 @@ def get_augmentation_fcn(mode, interpolation_method=cv.INTER_LINEAR):
         'vflip': VerticalFlip(p=1.),
         'scale': RandomScale(p=1., interpolation=interpolation_method),
         'ssr': ShiftScaleRotate(p=1., interpolation=interpolation_method),
+        'none': None
     }
     return augmentation_dict[mode]
 
@@ -179,12 +179,17 @@ if __name__ == '__main__':
         help='Show each image before and after augmentation.')
     parser.add_argument('--no_profile', default=False, action='store_true',
         help='Do not use a profiler for this run.')
+    parser.add_argument('--resize', default=None, type=int,
+        help='Resize images (before augmentation) to this x this.')
+    # parser.add_argument('--debug', default=False, action='store_true',
+    #     help='Run in debug mode.')
     args = parser.parse_args()
 
     # create generator (or preload) images
+    print(args.generate_images_of_size)
     if args.generate_images_of_size is None:  # load images from directory
         if args.preload:
-            if no_profile:
+            if args.no_profile:
                 images = preload_images_from_directory(image_dir=args.image_dir,
                                                        n_images=args.num_images,
                                                        shuffle=True,
@@ -215,6 +220,19 @@ if __name__ == '__main__':
         else:
             images = (np.random.randint(0, 256, shape[1:], dtype='uint8') 
                       for _ in range(args.num_images))
+
+    # resize images (if requested)
+    if args.resize is not None:
+        resize = Resize(height=args.resize, width=args.resize, p=1.,
+                        interpolation=cv.INTER_LINEAR)
+        if args.preload:
+            images = [resize(**{'image': image}) for image in images]
+        else:
+            images = (resize(**{'image': image}) for image in images)
+
+    # if args.debug:
+    #     print('%s images loaded.' % len(images))
+    #     print('images.shape =', images.shape)
 
     augment = get_augmentation_fcn(args.mode, interpolation_method=cv.INTER_LINEAR)
     if args.show:
