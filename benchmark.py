@@ -236,6 +236,9 @@ if __name__ == '__main__':
         images, images_copy = tee(images)
         print('images.shape =', np.array(list(images_copy)).shape)
 
+    if args.mode == 'none':
+        exit()
+
     augment = get_augmentation_fcn(args.mode, interpolation_method=cv.INTER_LINEAR)
     if args.show:
         for image in images:
