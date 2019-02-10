@@ -69,8 +69,10 @@ def preload_images_from_directory(image_dir, n_images=None, shuffle=True,
         np.random.shuffle(image_filenames)
 
     if n_images is not None:
+        assert n_images <= len(image_filenames)
         image_filenames = image_filenames[:n_images]
 
+    assert len(image_filenames) > 0
     return [cv.imread(fn) for fn in image_filenames]
 
 
@@ -100,8 +102,10 @@ def iterate_images_from_directory(image_dir, n_images=None, shuffle=True,
         np.random.shuffle(image_filenames)
 
     if n_images is not None:
+        assert n_images <= len(image_filenames)
         image_filenames = image_filenames[:n_images]
 
+    assert len(image_filenames) > 0
     for fn in image_filenames:
         yield cv.imread(fn)
 
@@ -138,8 +142,6 @@ def get_augmentation_fcn(mode, interpolation_method=cv.INTER_LINEAR):
 
 
 def show_before_and_after(before_image, after_image):
-
-
     h_diff = after_image.shape[0] - before_image.shape[0]
     if h_diff > 0:  # augmented is taller
         padding = 255 * np.ones((abs(h_diff),) + before_image.shape[1:],
@@ -181,8 +183,8 @@ if __name__ == '__main__':
         help='Do not use a profiler for this run.')
     parser.add_argument('--resize', default=None, type=int,
         help='Resize images (before augmentation) to this x this.')
-    # parser.add_argument('--debug', default=False, action='store_true',
-    #     help='Run in debug mode.')
+    parser.add_argument('--debug', default=False, action='store_true',
+        help='Run in debug mode.  Note, this will skew profiling results.')
     args = parser.parse_args()
 
     # create generator (or preload) images
@@ -226,13 +228,14 @@ if __name__ == '__main__':
         resize = Resize(height=args.resize, width=args.resize, p=1.,
                         interpolation=cv.INTER_LINEAR)
         if args.preload:
-            images = [resize(**{'image': image}) for image in images]
+            images = [resize(**{'image': image})['image'] for image in images]
         else:
-            images = (resize(**{'image': image}) for image in images)
+            images = (resize(**{'image': image})['image'] for image in images)
 
-    # if args.debug:
-    #     print('%s images loaded.' % len(images))
-    #     print('images.shape =', images.shape)
+    if args.debug:
+        from itertools import tee
+        images, images_copy = tee(images)
+        print('images.shape =', np.array(list(images_copy)).shape)
 
     augment = get_augmentation_fcn(args.mode, interpolation_method=cv.INTER_LINEAR)
     if args.show:
