@@ -1,0 +1,26 @@
+2ask scott
+* how to do hflip with platicine
+* how to do averaging 4 pixels toy problem
+
+
+think in terms of cycles, think my sram reads this many bits per cycle
+cacti sram modelling tool
+
+
+
+some srams include latches at the base
+
+end goal: design and some rational for it being reasonably better than baseline
+* schematic of what looks like
+* performance results
+* might derive analytic equation or might make snippets of c code
+* might consider some sort of parameter sweep to compare bandwidth needed in different cases or what not
+
+
+on 
+- data props
+- about l3 miss patter -- maybe some sort of amortization, some sort of flushing
+-use bytes per 
+
+
+!!! check how numpy arrays are being stored

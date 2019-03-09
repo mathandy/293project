@@ -1,0 +1,23 @@
+# started on Sat Feb  9 22:29:52 2019
+
+
+ Performance counter stats for 'python benchmark.py test_images interpolation_necessary --resize 250 -n 191 -p --no_profile':
+
+       1134.352136      task-clock (msec)         #    0.985 CPUs utilized          
+                74      context-switches          #    0.065 K/sec                  
+                16      cpu-migrations            #    0.014 K/sec                  
+            94,659      page-faults               #    0.083 M/sec                  
+        20,544,286      LLC-loads                 #   18.111 M/sec                    (49.67%)
+         3,390,848      LLC-load-misses           #   16.51% of all LL-cache hits     (49.70%)
+         8,983,654      LLC-stores                #    7.920 M/sec                    (19.82%)
+         5,369,090      LLC-store-misses          #    4.733 M/sec                    (19.74%)
+   <not supported>      LLC-prefetch-misses                                         
+       188,324,955      cache-references          #  166.020 M/sec                    (29.81%)
+        39,974,852      cache-misses              #   21.227 % of all cache refs      (40.38%)
+     4,998,117,861      cycles                    #    4.406 GHz                      (40.43%)
+     9,350,428,527      instructions              #    1.87  insn per cycle           (50.29%)
+     1,256,531,589      branches                  # 1107.709 M/sec                    (50.29%)
+        24,879,798      branch-misses             #    1.98% of all branches          (50.10%)
+
+       1.152204342 seconds time elapsed
+

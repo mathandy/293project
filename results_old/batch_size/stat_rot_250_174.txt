@@ -1,0 +1,23 @@
+# started on Sat Feb  9 22:26:14 2019
+
+
+ Performance counter stats for 'python benchmark.py test_images rot --resize 250 -n 174 -p --no_profile':
+
+       1112.095596      task-clock (msec)         #    0.984 CPUs utilized          
+                81      context-switches          #    0.073 K/sec                  
+                16      cpu-migrations            #    0.014 K/sec                  
+            90,348      page-faults               #    0.081 M/sec                  
+        19,834,411      LLC-loads                 #   17.835 M/sec                    (49.04%)
+         3,294,508      LLC-load-misses           #   16.61% of all LL-cache hits     (49.10%)
+         8,370,726      LLC-stores                #    7.527 M/sec                    (20.36%)
+         4,618,800      LLC-store-misses          #    4.153 M/sec                    (20.54%)
+   <not supported>      LLC-prefetch-misses                                         
+       191,077,900      cache-references          #  171.818 M/sec                    (30.83%)
+        43,288,219      cache-misses              #   22.655 % of all cache refs      (40.90%)
+     4,907,829,965      cycles                    #    4.413 GHz                      (40.61%)
+     9,420,250,110      instructions              #    1.92  insn per cycle           (50.32%)
+     1,297,603,339      branches                  # 1166.809 M/sec                    (49.78%)
+        24,828,983      branch-misses             #    1.91% of all branches          (49.20%)
+
+       1.129728822 seconds time elapsed
+

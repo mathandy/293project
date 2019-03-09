@@ -1,0 +1,23 @@
+# started on Sat Feb  9 23:35:20 2019
+
+
+ Performance counter stats for 'python benchmark.py test_images hflip --resize 250 -n 428 -p --no_profile':
+
+       1773.230298      task-clock (msec)         #    0.989 CPUs utilized          
+                77      context-switches          #    0.043 K/sec                  
+                16      cpu-migrations            #    0.009 K/sec                  
+           165,252      page-faults               #    0.093 M/sec                  
+        22,362,560      LLC-loads                 #   12.611 M/sec                    (49.78%)
+         3,780,041      LLC-load-misses           #   16.90% of all LL-cache hits     (49.91%)
+        15,448,653      LLC-stores                #    8.712 M/sec                    (20.21%)
+        10,625,886      LLC-store-misses          #    5.992 M/sec                    (20.17%)
+   <not supported>      LLC-prefetch-misses                                         
+       242,281,144      cache-references          #  136.633 M/sec                    (30.24%)
+        71,240,984      cache-misses              #   29.404 % of all cache refs      (40.17%)
+     7,820,768,309      cycles                    #    4.410 GHz                      (39.93%)
+    17,158,459,021      instructions              #    2.19  insn per cycle           (49.85%)
+     1,964,475,711      branches                  # 1107.851 M/sec                    (49.77%)
+        30,415,903      branch-misses             #    1.55% of all branches          (49.62%)
+
+       1.793306049 seconds time elapsed
+

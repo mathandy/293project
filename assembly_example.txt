@@ -1,0 +1,30 @@
+r1 <- read p00
+r2 <- read p01
+r3 <- read p10
+r4 <- read p11
+r1 <- r1 + r2
+r1 <- r1 + r3
+r1 <- r1 + r4
+mem00 <- write r1
+
+r5 <- read p12
+r1 <- read p02  //notice hazard from write
+r2 <- r2+r1+r5+r4    //r2 is new accumulator (throw out p01)
+mem01 <- write r2
+
+r2 <- read p02
+r5 <- read p12
+r2 <- r2+r1+r5+r4    //r? is new accumulator (throw out p01)
+mem01 <- write r2
+
+
+
+-----
+naive desgin
+============
+proceed row by row
+- throwing out bottom row until last patch of row, 
+- snake around to reuse bottom values of last op.
+
+less naive design
+=================
