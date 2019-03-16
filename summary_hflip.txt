@@ -1,0 +1,40 @@
+hflip_2x250.csv
+    time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+60             0.286607               0.030896     5     1     4096
+15             0.286607               0.030896     2     1     4096
+45             0.288123               0.031019     4     1     4096
+hflip_4x250.csv
+    time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+60             0.286607               0.030896     5     1     4096
+15             0.286607               0.030896     2     1     4096
+45             0.288123               0.031019     4     1     4096
+hflip_2x100.csv
+     time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+135             0.286649               0.030903    10     1     4096
+45              0.286649               0.030903     4     1     4096
+15              0.286649               0.030903     2     1     4096
+hflip_4x50.csv
+     time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+60              0.286856               0.030936     5     1     4096
+15              0.286856               0.030936     2     1     4096
+135             0.286856               0.030936    10     1     4096
+hflip_2x50.csv
+     time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+60              0.286856               0.030936     5     1     4096
+15              0.286856               0.030936     2     1     4096
+135             0.286856               0.030936    10     1     4096
+hflip_4x500.csv
+    time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+15             0.286597               0.030895     2     1     4096
+30             0.288273               0.031133     3     1     4096
+45             0.289445               0.031351     4     1     4096
+hflip_2x500.csv
+    time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+15             0.286599               0.030895     2     1     4096
+30             0.288275               0.031133     3     1     4096
+45             0.289445               0.031351     4     1     4096
+hflip_4x100.csv
+     time per pixel (ns)  energy per pixel (nJ)  rows  ways  l1_size
+135             0.286597               0.030895    10     1     4096
+45              0.286597               0.030895     4     1     4096
+15              0.286597               0.030895     2     1     4096

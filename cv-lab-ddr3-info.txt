@@ -1,0 +1,90 @@
+mem
+andy@siyang-lab-desktop:~$ sudo dmidecode --type 17
+[sudo] password for andy:
+# dmidecode 3.0
+Getting SMBIOS data from sysfs.
+SMBIOS 2.7 present.
+
+Handle 0x002C, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x002B
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 2048 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM3
+	Bank Locator: Not Specified
+	Type: DDR3
+	Type Detail: Synchronous
+	Speed: 1600 MHz
+	Manufacturer: Micron
+	Serial Number: E8A38FEB
+	Asset Tag: 9876543210
+	Part Number: 4JTF25664AZ-1G6E1
+	Rank: 1
+	Configured Clock Speed: 1600 MHz
+
+Handle 0x002F, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x002B
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 4096 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM1
+	Bank Locator: Not Specified
+	Type: DDR3
+	Type Detail: Synchronous
+	Speed: 1600 MHz
+	Manufacturer: Micron
+	Serial Number: DFC5B289
+	Asset Tag: 9876543210
+	Part Number: 8JTF51264AZ-1G6E1
+	Rank: 1
+	Configured Clock Speed: 1600 MHz
+
+Handle 0x0031, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x002B
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 2048 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM4
+	Bank Locator: Not Specified
+	Type: DDR3
+	Type Detail: Synchronous
+	Speed: 1600 MHz
+	Manufacturer: Micron
+	Serial Number: E8A38FE9
+	Asset Tag: 9876543210
+	Part Number: 4JTF25664AZ-1G6E1
+	Rank: 1
+	Configured Clock Speed: 1600 MHz
+
+Handle 0x0033, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x002B
+	Error Information Handle: Not Provided
+	Total Width: 64 bits
+	Data Width: 64 bits
+	Size: 4096 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: DIMM2
+	Bank Locator: Not Specified
+	Type: DDR3
+	Type Detail: Synchronous
+	Speed: 1600 MHz
+	Manufacturer: Micron
+	Serial Number: DFC5B281
+	Asset Tag: 9876543210
+	Part Number: 8JTF51264AZ-1G6E1
+	Rank: 1
+	Configured Clock Speed: 1600 MHz
