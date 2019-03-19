@@ -27,7 +27,7 @@ DRAM_WRITE_ENERGY = 78.6838
 
 def pixel_address(x, y, w, offset=0, pixel_size=3):
     idx = x + y*w
-    return idx * pixel_size + offset
+    return int(idx*pixel_size + offset)
 
 
 def reflect_101(x, dimension_length):

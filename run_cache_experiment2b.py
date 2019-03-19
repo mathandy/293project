@@ -7,6 +7,8 @@ except ImportError:
 
 dram_multiplier = 1
 store_to_cache = True
+kernels = ['rot']
+# kernels = ['rot', 'hflip', 'vflip']
 
 batch_sizes = [1, 2, 4, 8, 16, 32, 64]
 sizes = [100, 250]
@@ -19,7 +21,7 @@ results_dir = 'results/new-batch-size-test'
 
 for size in sizes:
     for n_images in batch_sizes:
-        for kernel in ['rot', 'hflip', 'vflip']:
+        for kernel in kernels:
             print('\n' + '='*25 + '\n' + kernel + '\n' + '='*25 + '\n')
 
             # create output filename

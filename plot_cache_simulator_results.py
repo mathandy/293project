@@ -19,6 +19,7 @@ def plot(data_frame, filename, hue, x_column, y_column):
                     # linewidth=0,
                     data=data_frame, ax=ax)
 
+    g.tight_layout()
     g.savefig(filename)
 
 
@@ -31,24 +32,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # load csv data into pandas DataFrame
-    k = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
-         'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen',
-         'fifteen', 'sixteen']
-
     df = pd.read_csv(args.data_path, ',')
+    if len(df) == 0:
+        print('data_path = "%s" is empty.' % args.data_path)
+        exit(1)
+
+    # change names of columns and categories for plot aesthetics
     associativity_dict = (['fully-associative', 'direct-mapped'] +
                           ['%s-way' % k for k in range(2, df.ways.max() + 1)])
-    l1_size_dict = (['fully-associative', 'direct-mapped'] +
-                    ['%s-way' % k for k in range(2, df.ways.max() + 1)])
-    # df['rows'] = df.rows.astype('str')
-    # df['ways'] = df.ways.astype('str')
-    # df['l1_size'] = df.l1_size.astype('category')
-    df['rows'] = [k[x] for x in df['rows']]
+    df['rows'] = ['%s-AAUs' % x for x in df['rows']]
     df['ways'] = [associativity_dict[int(x)] for x in df['ways']]
     df['l1_size'] = [str(int(x/1024)) + 'KiB' for x in df['l1_size']]
-
-    new_column_names = ['Energy per Pixel (nJ)', 'Time per Pixel (ns)',
-                        'Number of Cores', 'Cache Associativity', 'L1 Size']
+    new_column_names = ['Time per Pixel (ns)', 'Energy per Pixel (nJ)',
+                        'Parallelism', 'Cache Associativity', 'L1 Size']
     name_change_dict = dict(zip(df.columns, new_column_names))
     df = df.rename(columns=name_change_dict)
 

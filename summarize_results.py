@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def summarize(results_dir, output_filename, top_k=3, prefix='',
-              postfix='.csv', ignore=None):
+              postfix='.csv', ignore=None, sort_by_energy=True):
 
     for fn in os.listdir(results_dir):
 
@@ -20,7 +20,10 @@ def summarize(results_dir, output_filename, top_k=3, prefix='',
 
         # write summary for this file
         df = pd.read_csv(fn_full, ',')
-        top_results = df.sort_values(by='time per pixel (ns)')[1:top_k+1]
+        if sort_by_energy:
+            top_results = df.sort_values(by='energy per pixel (nJ)')[1:top_k+1]
+        else:
+            top_results = df.sort_values(by='time per pixel (ns)')[1:top_k+1]
         with open(output_filename, 'a+') as f:
             f.write(fn + '\n' + str(top_results) + '\n')
 
@@ -39,6 +42,8 @@ if __name__ == '__main__':
                         help='Only include files with this postfix.')
     parser.add_argument('--ignore', default=None,
                         help='Do not include files with this in name.')
+    parser.add_argument('--energy', default=False, action='store_true',
+                        help='Sort by energy.')
     args = parser.parse_args()
 
     # create requested summary
@@ -46,4 +51,5 @@ if __name__ == '__main__':
               output_filename=args.output_filename,
               top_k=args.top_k,
               prefix=args.prefix,
-              postfix=args.postfix)
+              postfix=args.postfix,
+              sort_by_energy=args.energy)
